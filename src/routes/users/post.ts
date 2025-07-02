@@ -1,6 +1,7 @@
-import Elysia, { t } from "elysia";
+import { t } from "elysia";
+import { newRouter } from "@libs/router";
 
-export const usersPostRoutes = new Elysia().post(
+export const usersPostRoutes = newRouter().post(
   "",
   ({ body }) => {
     return {
@@ -11,5 +12,6 @@ export const usersPostRoutes = new Elysia().post(
     body: t.Object({
       name: t.String(),
     }),
+    tags: ["User"],
   }
 );

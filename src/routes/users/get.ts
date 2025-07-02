@@ -1,18 +1,27 @@
-import Elysia, { t } from "elysia";
+import { t } from "elysia";
+import { newRouter } from "@libs/router";
+import { badRequest, NaviaryError, notFound } from "../../libs/errors";
 
-export const usersGetRoutes = new Elysia()
+export const usersGetRoutes = newRouter()
   .state("user", {
     name: "John Doe",
   })
+  .error({
+    NaviaryError,
+  })
   .get(
     "",
-    ({ store }) => {
-      return {
-        data: {
-          user: store.user,
-          count: 10,
-        },
-      };
+    ({ store, context }) => {
+      // console.log("!!!", context.txId);
+      // return {
+      //   data: {
+      //     user: store.user,
+      //     count: 10,
+      //   },
+      // };
+      throw notFound("server", {
+        errorMessage: "client",
+      });
     },
     {
       response: {
@@ -24,6 +33,10 @@ export const usersGetRoutes = new Elysia()
             count: t.Number(),
           }),
         }),
+      },
+      tags: ["User"],
+      detail: {
+        description: "유저 리스트 조회 API",
       },
     }
   );
